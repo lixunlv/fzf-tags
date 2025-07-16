@@ -41,10 +41,10 @@ function! fzf_tags#Find(identifier)
     let run_spec = {
           \ 'source': source_lines,
           \ 'sink*': function('s:sink', [identifier]),
-          \ 'options': '--expect=' . expect_keys . ' --ansi --no-sort --tiebreak index --prompt "' . s:fzf_tags_prompt . '\"' . identifier . '\" > "',
+          \ 'options': '--layout=reverse --expect=' . expect_keys . ' --ansi --no-sort --tiebreak index --prompt "' . s:fzf_tags_prompt . '\"' . identifier . '\" > "',
           \ }
     let final_run_spec = extend(run_spec, s:fzf_layout)
-    call fzf#run(final_run_spec)
+    call fzf#run(fzf#wrap(final_run_spec))
   endif
 endfunction
 
@@ -118,11 +118,11 @@ function! s:sink(identifier, selection)
 endfunction
 
 function! s:green(s)
-  return "\033[32m" . a:s . "\033[m"
+  return a:s
 endfunction
 function! s:magenta(s)
-  return "\033[35m" . a:s . "\033[m"
+  return a:s
 endfunction
 function! s:red(s)
-  return "\033[31m" . a:s . "\033[m"
+  return a:s
 endfunction
